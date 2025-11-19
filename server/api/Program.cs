@@ -1,6 +1,10 @@
 using System.Text.Json.Serialization;
 using api.Etc;
 using api.Services;
+using dataccess;
+using Infrastructure.Postgres.Scaffolding;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Sieve.Models;
 using Sieve.Services;
@@ -38,6 +42,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder();
 
+        builder.Services.AddDbContext<MyDbContext>(conf =>
+        {
+            conf.UseNpgsql("Host  =ep-old-recipe-agw8ov1x-pooler.c-2.eu-central-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=npg_n4FzJKxqi0US;SSL Mode=VerifyFull;Channel Binding=Require");
+        });
+
         ConfigureServices(builder.Services);
         var app = builder.Build();
         app.UseExceptionHandler(config => { });
@@ -47,7 +56,13 @@ public class Program
         );
         app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().SetIsOriginAllowed(x => true));
         app.MapControllers();
-        app.MapGet("/", () => "Hello World!");
+        
+        app.MapGet("/", ([FromServices]MyDbContext dbContext) =>
+        {
+            var myPlayer = new Player()
+            var objects = dbContext.Players.ToList();
+        });
+        
         app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-client.ts").GetAwaiter().GetResult();
         if (app.Environment.IsDevelopment())
             using (var scope = app.Services.CreateScope())
