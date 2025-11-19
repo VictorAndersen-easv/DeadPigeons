@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{DAD03C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "server\api\api.csproj", "{9E79BB32-948F-4F76-A9C7-5EF3F4057369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dataccess", "server\dataccess\dataccess.csproj", "{5EBE26BC-6A8C-48C0-BCEF-2EAEC0181F83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "efscaffold", "server\efscaffold\efscaffold.csproj", "{5EBE26BC-6A8C-48C0-BCEF-2EAEC0181F83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "server\tests\tests.csproj", "{AA8CEBD3-9960-4D03-897A-210AFCBEB2F1}"
 EndProject
