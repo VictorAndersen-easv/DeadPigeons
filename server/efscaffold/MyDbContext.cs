@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using efscaffold.Entities;
+
+using dataaccess;
+
+
 
 namespace Infrastructure.Postgres.Scaffolding;
+
+
+
 
 public partial class MyDbContext : DbContext
 {
@@ -11,6 +17,7 @@ public partial class MyDbContext : DbContext
         : base(options)
     {
     }
+    
 
     public virtual DbSet<Player> Players { get; set; }
 

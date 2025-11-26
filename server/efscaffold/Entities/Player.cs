@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace efscaffold.Entities;
+namespace dataaccess;
 
 public partial class Player
 {

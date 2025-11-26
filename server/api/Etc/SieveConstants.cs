@@ -1,4 +1,4 @@
-namespace api.Etc;
+﻿namespace api.Etc;
 
 public static class SieveConstants
 {

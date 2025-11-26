@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace dataccess;
+namespace server;
 
 public partial class Player
 {

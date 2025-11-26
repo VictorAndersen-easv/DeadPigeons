@@ -1,13 +1,15 @@
 using System.Text.Json.Serialization;
 using api.Etc;
-using api.Services;
-using dataccess;
+using dataaccess;
+using DotNetEnv;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Sieve.Models;
 using Sieve.Services;
+using DotNetEnv;
+
 
 namespace api;
 //test comment
@@ -17,7 +19,6 @@ public class Program
     {
         services.AddSingleton(TimeProvider.System);
         services.InjectAppOptions();
-        services.AddMyDbContext();
         services.AddControllers().AddJsonOptions(opts =>
         {
             opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
@@ -25,8 +26,6 @@ public class Program
         });
         services.AddOpenApiDocument(config => { config.AddStringConstants(typeof(SieveConstants)); });
         services.AddCors();
-        services.AddScoped<ILibraryService, LibraryService>();
-        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ISeeder, SieveTestSeeder>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.Configure<SieveOptions>(options =>
@@ -41,10 +40,14 @@ public class Program
     public static void Main()
     {
         var builder = WebApplication.CreateBuilder();
+       
+        Env.Load();
+        
+        var connStr = Environment.GetEnvironmentVariable("CONN_STR");
 
         builder.Services.AddDbContext<MyDbContext>(conf =>
         {
-            conf.UseNpgsql("Host  =ep-old-recipe-agw8ov1x-pooler.c-2.eu-central-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=npg_n4FzJKxqi0US;SSL Mode=VerifyFull;Channel Binding=Require");
+            conf.UseNpgsql(connStr);
         });
 
         ConfigureServices(builder.Services);
@@ -60,7 +63,15 @@ public class Program
         app.MapGet("/", ([FromServices]MyDbContext dbContext) =>
         {
             var myPlayer = new Player()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Email = "biggus@dickus.com",
+                Name = "Biggus"
+            };
+            dbContext.Add(myPlayer);
+            dbContext.SaveChanges();
             var objects = dbContext.Players.ToList();
+            return objects;
         });
         
         app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-client.ts").GetAwaiter().GetResult();
