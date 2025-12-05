@@ -156,7 +156,7 @@ public static class DiExtensions
         else
         {
             services.AddDbContext<MyDbContext>(
-                (services, options) => { options.UseNpgsql(services.GetRequiredService<AppOptions>().Db); },
+                (services, options) => { options.UseNpgsql(services.GetRequiredService<AppOptions>().DbConnectionString); },
                 ServiceLifetime.Transient);
         }
     }
