@@ -9,12 +9,14 @@ using Scalar.AspNetCore;
 using Sieve.Models;
 using Sieve.Services;
 using DotNetEnv;
+using Newtonsoft.Json;
 
 
 namespace api;
 //test comment
 public class Program
 {
+    
     public static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(TimeProvider.System);
@@ -40,14 +42,18 @@ public class Program
     public static void Main()
     {
         var builder = WebApplication.CreateBuilder();
+        
+        var appOptions = builder.Services.AddAppOptions(builder.Configuration);
        
         Env.Load();
+        
+        
         
         var connStr = Environment.GetEnvironmentVariable("CONN_STR");
 
         builder.Services.AddDbContext<MyDbContext>(conf =>
         {
-            conf.UseNpgsql(connStr);
+            conf.UseNpgsql(appOptions.DbConnectionString);
         });
 
         ConfigureServices(builder.Services);
