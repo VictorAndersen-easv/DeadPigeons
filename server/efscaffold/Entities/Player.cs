@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace dataaccess;
+﻿namespace dataccess.Entities;
 
 public partial class Player
 {

@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using api.Etc;
-using dataaccess;
+using api.Services;
+using dataccess;
 using DotNetEnv;
-using Infrastructure.Postgres.Scaffolding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -26,9 +26,10 @@ public class Program
             opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             opts.JsonSerializerOptions.MaxDepth = 128;
         });
-        services.AddOpenApiDocument(config => { config.AddStringConstants(typeof(SieveConstants)); });
+        // FOR DELETION - services.AddOpenApiDocument(config => { config.AddStringConstants(typeof(SieveConstants)); });
         services.AddCors();
         services.AddScoped<ISeeder, SieveTestSeeder>();
+        services.AddProblemDetails();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.Configure<SieveOptions>(options =>
         {
@@ -43,7 +44,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder();
         
+        builder.Services.AddControllers();
+        builder.Services.AddOpenApiDocument();
+        
         var appOptions = builder.Services.AddAppOptions(builder.Configuration);
+        builder.Services.AddScoped<IPlayerService, PlayerService>();
        
         Env.Load();
         
@@ -69,28 +74,15 @@ public class Program
             .SetIsOriginAllowed(x => true));
         
         app.MapControllers();
-        
-        app.MapGet("/", ([FromServices]MyDbContext dbContext) =>
-        {
-            var myPlayer = new Player()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Email = "biggus@dickus.com",
-                Name = "Biggus"
-            };
-            dbContext.Add(myPlayer);
-            dbContext.SaveChanges();
-            var objects = dbContext.Players.ToList();
-            return objects;
-        });
-        
-        app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-client.ts").GetAwaiter().GetResult();
-        if (app.Environment.IsDevelopment())
-            using (var scope = app.Services.CreateScope())
-            {
-                scope.ServiceProvider.GetRequiredService<ISeeder>().Seed().GetAwaiter().GetResult();
-            }
 
+        app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-client.ts").GetAwaiter().GetResult();
+         if (app.Environment.IsDevelopment())
+             using (var scope = app.Services.CreateScope())
+             {
+                 scope.ServiceProvider.GetRequiredService<ISeeder>().Seed().GetAwaiter().GetResult();
+             }
+     
+     
         app.Run();
     }
 }

@@ -1,30 +1,43 @@
-﻿using Infrastructure.Postgres.Scaffolding;
+﻿using api.Dtos;
+using api.Services;
+using dataccess.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
+namespace api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PlayerController : ControllerBase
+public class PlayerController(IPlayerService playerService) : ControllerBase
 {
-    private readonly MyDbContext _db;
 
-    public PlayerController(MyDbContext db)
-    {
-        _db = db;
-    }
-
+    [Route(nameof(GetAllPlayers))]
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<List<Player>>> GetAllPlayers()
     {
-        var players = await _db.Players.ToListAsync();
-        return Ok(players);
+
+        var players = await playerService.GetAllPlayers();
+        return players;
     }
 
-    [HttpGet("debug")]
-         public IActionResult DebugEntities()
-        {
-            var entityTypes = _db.Model.GetEntityTypes();
-            var entityNames = entityTypes.Select(e => e.ClrType.FullName).ToList();
-            return Ok(entityNames);
-        }
+    [Route(nameof(CreatePlayer))]
+    [HttpPost]
+    public async Task<ActionResult<Player>> CreatePlayer([FromBody] CreatePlayerDto dto)
+    {
+        // Possible server-side validation method
+        // if(dto.Name < 0 || > 5) throw new ValidationException("Must be 0-5")
+
+        /* var myPlayer = new Player()
+     {
+         Id = Guid.NewGuid().ToString(),
+         Email = dto.Email,
+         Name = dto.Name
+     };
+     dbContext.Add(myPlayer);
+     dbContext.SaveChanges();
+     return myPlayer;
+ */
+
+        var result = await playerService.CreatePlayer(dto);
+        return result;
     }
+}

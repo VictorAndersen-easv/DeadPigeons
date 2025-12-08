@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace server;
+﻿namespace dataccess;
 
 public partial class Player
 {

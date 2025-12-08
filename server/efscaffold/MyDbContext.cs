@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-using dataaccess;
-
-
-
-namespace Infrastructure.Postgres.Scaffolding;
+namespace dataccess;
 
 
 
@@ -19,11 +13,11 @@ public partial class MyDbContext : DbContext
     }
     
 
-    public virtual DbSet<Player> Players { get; set; }
+    public virtual DbSet<Entities.Player> Players { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Player>(entity =>
+        modelBuilder.Entity<Entities.Player>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("players_pkey");
 

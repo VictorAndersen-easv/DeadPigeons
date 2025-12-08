@@ -6,20 +6,22 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/Player": {
+    "/api/Player/GetAllPlayers": {
       "get": {
         "tags": [
           "Player"
         ],
-        "operationId": "Player_GetAll",
+        "operationId": "Player_GetAllPlayers",
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Player"
+                  }
                 }
               }
             }
@@ -27,20 +29,31 @@
         }
       }
     },
-    "/api/Player/debug": {
-      "get": {
+    "/api/Player/CreatePlayer": {
+      "post": {
         "tags": [
           "Player"
         ],
-        "operationId": "Player_DebugEntities",
+        "operationId": "Player_CreatePlayer",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlayerDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/Player"
                 }
               }
             }
@@ -51,27 +64,31 @@
   },
   "components": {
     "schemas": {
-      "SieveConstants": {
+      "Player": {
         "type": "object",
-        "description": "String constants from SieveConstants",
         "additionalProperties": false,
         "properties": {
-          "GenreName": {
-            "type": "string",
-            "readOnly": true,
-            "description": "Constant value: \"GenreName\"",
-            "default": "GenreName"
+          "id": {
+            "type": "string"
           },
-          "GenreId": {
-            "type": "string",
-            "readOnly": true,
-            "description": "Constant value: \"GenreId\"",
-            "default": "GenreId"
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
           }
-        },
-        "x-constant-values": {
-          "GenreName": "GenreName",
-          "GenreId": "GenreId"
+        }
+      },
+      "CreatePlayerDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
         }
       }
     }

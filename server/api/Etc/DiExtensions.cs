@@ -1,6 +1,5 @@
 using api.Models;
-using dataaccess;
-using Infrastructure.Postgres.Scaffolding;
+using dataccess;
 using Microsoft.EntityFrameworkCore;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag;

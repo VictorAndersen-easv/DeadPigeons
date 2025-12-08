@@ -1,8 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Bogus;
-using dataaccess;
-using Infrastructure.Postgres.Scaffolding;
+using dataccess;
 
 namespace api.Etc;
 
