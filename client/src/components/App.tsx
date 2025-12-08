@@ -2,27 +2,24 @@ import {createBrowserRouter, RouterProvider} from "react-router";
 import Home from "@components/Home.tsx";
 import {DevTools} from "jotai-devtools";
 import 'jotai-devtools/styles.css'
-import {Toaster} from "react-hot-toast";
-import Auth from "@components/routes/auth/Auth.tsx";
+import {Toaster} from "react-hot-toast"
+import {finalUrl} from "../core/baseUrl"
+
 
 function App() {
     return (
         <>
-            <RouterProvider router={createBrowserRouter([
-                {
-                    path: '',
-                    element: <Home/>,
-                    children: [
-                        {
-                            path: '',
-                            element: <Auth />,
-                            index: true
-                        },
-                    //     here you can just make more components: i just have a a single auth page with a quick crud test
-                        
-                    ]
-                }
-            ])}/>
+            <h1>Look at me! Im a webpage!</h1>
+            <button onClick={()=> {
+                fetch(finalUrl)
+                    .then(response => {
+                        console.log(response)
+                    }).catch(e => {
+                        console.log(e)
+                        })
+            }}> CLICK ME</button>
+            
+           
             <DevTools/>
             <Toaster
                 position="top-center"

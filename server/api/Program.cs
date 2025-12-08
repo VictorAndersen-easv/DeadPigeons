@@ -63,7 +63,11 @@ public class Program
         app.UseSwaggerUi();
         app.MapScalarApiReference(options => options.OpenApiRoutePattern = "/swagger/v1/swagger.json"
         );
-        app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().SetIsOriginAllowed(x => true));
+        app.UseCors(config => config.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin()
+            .SetIsOriginAllowed(x => true));
+        
         app.MapControllers();
         
         app.MapGet("/", ([FromServices]MyDbContext dbContext) =>
