@@ -75,13 +75,12 @@ public class Program
         
         app.MapControllers();
 
-        app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-client.ts").GetAwaiter().GetResult();
-         if (app.Environment.IsDevelopment())
+        app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-ts-client.ts");
+        if (app.Environment.IsDevelopment())
              using (var scope = app.Services.CreateScope())
              {
                  scope.ServiceProvider.GetRequiredService<ISeeder>().Seed().GetAwaiter().GetResult();
              }
-     
      
         app.Run();
     }
