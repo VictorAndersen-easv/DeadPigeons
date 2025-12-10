@@ -16,7 +16,7 @@ public class PlayerController(IPlayerService playerService) : ControllerBase
     {
 
         var players = await playerService.GetAllPlayers();
-        return players;
+        return players.ToList();
     }
 
     [Route(nameof(CreatePlayer))]

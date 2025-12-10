@@ -23,7 +23,7 @@ public class Program
         services.InjectAppOptions();
         services.AddControllers().AddJsonOptions(opts =>
         {
-            opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             opts.JsonSerializerOptions.MaxDepth = 128;
         });
         // FOR DELETION - services.AddOpenApiDocument(config => { config.AddStringConstants(typeof(SieveConstants)); });
@@ -75,7 +75,7 @@ public class Program
         
         app.MapControllers();
 
-        app.GenerateApiClientsFromOpenApi("/../../client/src/core/generated-ts-client.ts");
+        app.GenerateApiClientsFromOpenApiB("/../../client/src/core/generated-ts-client.ts");
         if (app.Environment.IsDevelopment())
              using (var scope = app.Services.CreateScope())
              {

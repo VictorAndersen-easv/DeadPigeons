@@ -89,14 +89,14 @@ export class PlayerClient {
 }
 
 export interface Player {
-    id: string;
-    name: string;
-    email: string;
+    id?: string;
+    name?: string;
+    email?: string;
 }
 
 export interface CreatePlayerDto {
-    email: string;
-    name: string;
+    email?: string;
+    name?: string;
 }
 
 export class ApiException extends Error {

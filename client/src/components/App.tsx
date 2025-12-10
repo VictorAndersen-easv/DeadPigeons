@@ -5,26 +5,44 @@ import 'jotai-devtools/styles.css'
 import {Toaster} from "react-hot-toast"
 import {finalUrl, playerClient} from "../core/baseUrl"
 import {useEffect, useState} from "react";
-import type {Player} from "@core/generated-client.ts";
+import type {CreatePlayerDto, Player} from "@core/generated-ts-client.ts";
 
 
 function App() {
 
     const [players, setPlayers] = useState<Player[]>([])
+    const [myForm,setMyForm] = useState<CreatePlayerDto>({
+        name: "",
+        email: "",
+    })
 
-    useEffect(()=> {
+   /* useEffect(()=> {
         playerClient.getAllPlayers().then(r=> {
             setPlayers(r);
         })
     }, [])
+*/
+    useEffect(() => {
+        playerClient.getAllPlayers().then(r => {
+            console.log("Returned value:", r);
+            setPlayers(r);
+        });
+    }, []);
+
+
 
     return (
 
         <div>
 
-        <input placeholder="bingus"/>
-        <input placeholder="getmeoutofhere"/>
-        <button>CLIQUE MOI</button>
+        <input value={myForm.name} onChange={e => setMyForm({...myForm, name: e.target.value})} placeholder="Name"/>
+        <input value={myForm.email} onChange={e => setMyForm({...myForm, email: e.target.value})} placeholder="Email"/>
+        <button onClick={() => {
+            playerClient.createPlayer(myForm).then((result) => {
+                console.log("Created player")
+                setPlayers([...players, result])
+            })
+        }}>CREATE NEW USER</button>
 
 
         <hr/>
