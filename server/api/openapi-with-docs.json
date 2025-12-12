@@ -6,6 +6,90 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/Login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_Login",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_Register",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequestDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WhoAmI": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_WhoAmI",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtClaims"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Player/GetAllPlayers": {
       "get": {
         "tags": [
@@ -64,6 +148,50 @@
   },
   "components": {
     "schemas": {
+      "JwtResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          }
+        }
+      },
+      "JwtClaims": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
       "Player": {
         "type": "object",
         "additionalProperties": false,
@@ -76,6 +204,19 @@
           },
           "email": {
             "type": "string"
+          },
+          "passwordhash": {
+            "type": "string"
+          },
+          "salt": {
+            "type": "string"
+          },
+          "createdat": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "role": {
+            "type": "string"
           }
         }
       },
@@ -87,6 +228,19 @@
             "type": "string"
           },
           "name": {
+            "type": "string"
+          },
+          "passwordhash": {
+            "type": "string"
+          },
+          "salt": {
+            "type": "string"
+          },
+          "createdat": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "role": {
             "type": "string"
           }
         }

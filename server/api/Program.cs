@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Sieve.Models;
 using Sieve.Services;
-using DotNetEnv;
 using Newtonsoft.Json;
 
 

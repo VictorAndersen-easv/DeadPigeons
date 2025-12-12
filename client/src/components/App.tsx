@@ -14,14 +14,11 @@ function App() {
     const [myForm,setMyForm] = useState<CreatePlayerDto>({
         name: "",
         email: "",
+        passwordhash: "",
+        salt:"Blargh123",
+        role: "",
     })
 
-   /* useEffect(()=> {
-        playerClient.getAllPlayers().then(r=> {
-            setPlayers(r);
-        })
-    }, [])
-*/
     useEffect(() => {
         playerClient.getAllPlayers().then(r => {
             console.log("Returned value:", r);
@@ -37,7 +34,10 @@ function App() {
 
         <input value={myForm.name} onChange={e => setMyForm({...myForm, name: e.target.value})} placeholder="Name"/>
         <input value={myForm.email} onChange={e => setMyForm({...myForm, email: e.target.value})} placeholder="Email"/>
-        <button onClick={() => {
+        <input value={myForm.passwordhash} onChange={e => setMyForm({...myForm, passwordhash: e.target.value})} placeholder="Password"/>
+        <input value={myForm.role} onChange={e => setMyForm({...myForm, role: e.target.value})} placeholder="Role"/>
+
+            <button onClick={() => {
             playerClient.createPlayer(myForm).then((result) => {
                 console.log("Created player")
                 setPlayers([...players, result])
