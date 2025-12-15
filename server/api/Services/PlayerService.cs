@@ -1,6 +1,7 @@
 ﻿using api.Dtos;
 using dataccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Player = dataccess.Entities.Player;
 
 namespace api.Services;
@@ -15,10 +16,13 @@ public class PlayerService(MyDbContext dbContext) :  IPlayerService
             Email = dto.Email,
             Name = dto.Name,
             Passwordhash = dto.Passwordhash,
-            Salt = dto.Salt,
             Createdat = DateTime.UtcNow,
             Role = dto.Role
         };
+        
+        var hasher = new PasswordHasher<Player>();
+        myPlayer.Passwordhash = hasher.HashPassword(myPlayer,  dto.Passwordhash);
+        
         dbContext.Add(myPlayer);
         dbContext.SaveChanges();
         return myPlayer;

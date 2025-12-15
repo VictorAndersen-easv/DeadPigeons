@@ -15,7 +15,6 @@ function App() {
         name: "",
         email: "",
         passwordhash: "",
-        salt:"Blargh123",
         role: "",
     })
 

@@ -1,3 +1,3 @@
 ﻿namespace api.Dtos;
 
-public record CreatePlayerDto(string Email, string Name, string Passwordhash, string Salt, DateTime Createdat,  string Role);
+public record CreatePlayerDto(string Email, string Name, string Passwordhash, DateTime Createdat,  string Role);

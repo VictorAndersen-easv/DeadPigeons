@@ -10,8 +10,6 @@ public partial class Player
     
     public string Passwordhash { get; set; } = null!;
     
-    public string Salt { get; set; } = null!;
-    
     public DateTime Createdat { get; set; }
     
     public string Role { get; set; } = null!;
