@@ -7,6 +7,7 @@ using Player = dataccess.Entities.Player;
 namespace api.Services;
 
 public class PlayerService(MyDbContext dbContext) :  IPlayerService
+
 {
     public async Task<Player> CreatePlayer(CreatePlayerDto dto)
     {
@@ -32,4 +33,29 @@ public class PlayerService(MyDbContext dbContext) :  IPlayerService
     {
         return dbContext.Players.ToList();
     }
+
+    public async Task<Player> Login(LoginDto dto)
+    {
+       PasswordHasher<Player> hasher = new PasswordHasher<Player>();
+        
+        
+        var player = dbContext.Players
+            .FirstOrDefault(p => p.Email == dto.Email);
+
+        if (player == null)
+            return null;
+
+        var result = hasher.VerifyHashedPassword(
+            player,
+            player.Passwordhash,
+            dto.Password
+        );
+
+        if (result != PasswordVerificationResult.Success)
+            return null;
+
+        return player;
+    }
+    
+    
 }

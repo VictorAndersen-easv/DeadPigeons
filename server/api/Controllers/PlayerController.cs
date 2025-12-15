@@ -40,4 +40,26 @@ public class PlayerController(IPlayerService playerService) : ControllerBase
         var result = await playerService.CreatePlayer(dto);
         return result;
     }
+
+    [Route(nameof(Login))]
+    [HttpPost]
+    public async Task<ActionResult> Login(LoginDto dto)
+    
+    {
+        var player = await playerService.Login(dto);
+        
+        if (player == null)
+            return Unauthorized("Invalid email or password");
+        
+        return Ok(new
+        {
+            player.Id,
+            player.Email,
+            player.Name,
+            player.Role
+        });
+    }
+    
+    
+    
 }

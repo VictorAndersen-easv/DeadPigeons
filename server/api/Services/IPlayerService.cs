@@ -9,4 +9,6 @@ public interface IPlayerService
     Task<Player> CreatePlayer(CreatePlayerDto dto);
     
     Task<List<Player>> GetAllPlayers();
+
+    Task<Player> Login(LoginDto dto);
 }

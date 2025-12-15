@@ -6,77 +6,80 @@ import {Toaster} from "react-hot-toast"
 import {finalUrl, playerClient} from "../core/baseUrl"
 import {useEffect, useState} from "react";
 import type {CreatePlayerDto, Player} from "@core/generated-ts-client.ts";
+import Login from "@components/Login.tsx";
 
 
 function App() {
 
-    const [players, setPlayers] = useState<Player[]>([])
-    const [myForm,setMyForm] = useState<CreatePlayerDto>({
-        name: "",
-        email: "",
-        passwordhash: "",
-        role: "",
-    })
-
-    useEffect(() => {
-        playerClient.getAllPlayers().then(r => {
-            console.log("Returned value:", r);
-            setPlayers(r);
-        });
-    }, []);
-
-
-
-    return (
-
-        <div>
-
-        <input value={myForm.name} onChange={e => setMyForm({...myForm, name: e.target.value})} placeholder="Name"/>
-        <input value={myForm.email} onChange={e => setMyForm({...myForm, email: e.target.value})} placeholder="Email"/>
-        <input value={myForm.passwordhash} onChange={e => setMyForm({...myForm, passwordhash: e.target.value})} placeholder="Password"/>
-        <input value={myForm.role} onChange={e => setMyForm({...myForm, role: e.target.value})} placeholder="Role"/>
-
-            <button onClick={() => {
-            playerClient.createPlayer(myForm).then((result) => {
-                console.log("Created player")
-                setPlayers([...players, result])
-            })
-        }}>CREATE NEW USER</button>
-
-
-        <hr/>
-
-
-            {
-                players.map(t => {
-                    return <div key={t.id}>
-
-                        {JSON.stringify(t)}
-                    </div>
-                })
-            }
-
-
-            <h1>Look at me! Im a webpage!</h1>
-
-            <div>
-            <button onClick={()=> {
-                fetch(finalUrl)
-                    .then(response => {
-                        console.log(response)
-                    }).catch(e => {
-                        console.log(e)
-                        })
-            }}> CLICK ME</button>
-            </div>
-
-            <DevTools/>
-            <Toaster
-                position="top-center"
-                reverseOrder={false}
-            />
-        </div>
-    )
-}
+    return <Login/>;
+ //
+ //  const [players, setPlayers] = useState<Player[]>([])
+ //  const [myForm,setMyForm] = useState<CreatePlayerDto>({
+ //      name: "",
+ //      email: "",
+ //      passwordhash: "",
+ //      role: "",
+ //  })
+ //
+ //  useEffect(() => {
+ //      playerClient.getAllPlayers().then(r => {
+ //          console.log("Returned value:", r);
+ //          setPlayers(r);
+ //      });
+ //  }, []);
+ //
+ //
+ //
+ //  return (
+ //
+ //      <div>
+ //
+ //      <input value={myForm.name} onChange={e => setMyForm({...myForm, name: e.target.value})} placeholder="Name"/>
+ //      <input value={myForm.email} onChange={e => setMyForm({...myForm, email: e.target.value})} placeholder="Email"/>
+ //      <input value={myForm.passwordhash} onChange={e => setMyForm({...myForm, passwordhash: e.target.value})} placeholder="Password"/>
+ //      <input value={myForm.role} onChange={e => setMyForm({...myForm, role: e.target.value})} placeholder="Role"/>
+ //
+ //          <button onClick={() => {
+ //          playerClient.createPlayer(myForm).then((result) => {
+ //              console.log("Created player")
+ //              setPlayers([...players, result])
+ //          })
+ //      }}>CREATE NEW USER</button>
+ //
+ //
+ //      <hr/>
+ //
+ //
+ //          {
+ //              players.map(t => {
+ //                  return <div key={t.id}>
+ //
+ //                      {JSON.stringify(t)}
+ //                  </div>
+ //              })
+ //          }
+ //
+ //
+ //          <h1>Look at me! Im a webpage!</h1>
+ //
+ //          <div>
+ //          <button onClick={()=> {
+ //              fetch(finalUrl)
+ //                  .then(response => {
+ //                      console.log(response)
+ //                  }).catch(e => {
+ //                      console.log(e)
+ //                      })
+ //          }}> CLICK ME</button>
+ //          </div>
+ //
+ //          <DevTools/>
+ //          <Toaster
+ //              position="top-center"
+ //              reverseOrder={false}
+ //          />
+ //      </div>
+ //  )
+    }
 
 export default App
