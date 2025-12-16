@@ -1,5 +1,7 @@
 ﻿import { useState } from "react";
 import { playerClient } from "../core/baseUrl";
+import { useNavigate } from "react-router";
+
 
 type LoginRequest = {
     email: string;
@@ -12,6 +14,9 @@ export default function Login() {
         password: "",
     });
 
+    const navigate = useNavigate();
+
+
     const [error, setError] = useState<string | null>(null);
 
     const handleLogin = async () => {
@@ -22,8 +27,8 @@ export default function Login() {
 
             console.log("Logged in:", result);
             // later:
-            // localStorage.setItem("token", result.token);
-            // navigate("/");
+            //localStorage.setItem("token", result.token);
+            navigate("/home");
         } catch (err) {
             setError("Invalid email or password");
         }
@@ -31,7 +36,7 @@ export default function Login() {
 
     return (
         <div style={{ maxWidth: 400, margin: "2rem auto" }}>
-            <h2>PLEASE LOG INTO THE THINGY</h2>
+            <h2>Please enter Email and Password.</h2>
 
             <input
                 type="email"
@@ -40,6 +45,10 @@ export default function Login() {
                 onChange={(e) =>
                     setForm({ ...form, email: e.target.value })
                 }
+                style={{
+                    marginBottom: "1rem",
+                    marginTop: "1rem",
+            }}
             />
 
             <input
@@ -49,9 +58,19 @@ export default function Login() {
                 onChange={(e) =>
                     setForm({ ...form, password: e.target.value })
                 }
+                style={{
+                    marginBottom: "1rem",
+                    marginTop: "1rem",
+                }}
             />
 
-            <button onClick={handleLogin}>
+            <button onClick={handleLogin} style={{
+                border: "2px solid black",
+                background: "white",
+                padding: "0.5rem 1rem",
+                cursor: "pointer",
+                marginTop: "1rem",
+            }}>
                 Login
             </button>
 

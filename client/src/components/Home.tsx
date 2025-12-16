@@ -4,9 +4,11 @@ export default function Home() {
 
     const navigate = useNavigate();
 
-    return <>
-        
-        <Outlet/>
+        return (
+            <div style={{ padding: "2rem" }}>
+                <h1>Welcome!</h1>
+                <p>You are now logged in.</p>
+            </div>
+        );
 
-    </>
 }

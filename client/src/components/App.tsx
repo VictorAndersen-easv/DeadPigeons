@@ -8,10 +8,16 @@ import {useEffect, useState} from "react";
 import type {CreatePlayerDto, Player} from "@core/generated-ts-client.ts";
 import Login from "@components/Login.tsx";
 
+const router = createBrowserRouter([
+    {path: "/", element: <Login />},
+    {path: "/home", element: <Home />},
+]);
+
 
 function App() {
 
-    return <Login/>;
+    return <RouterProvider router={router} />;
+ //  return <Login/>;
  //
  //  const [players, setPlayers] = useState<Player[]>([])
  //  const [myForm,setMyForm] = useState<CreatePlayerDto>({
